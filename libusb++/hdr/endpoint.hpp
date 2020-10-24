@@ -50,7 +50,7 @@ namespace AVR
 			GetDescriptor = 6,
 			SetDescriptor = 7,
 			GetConfiguration = 8,
-			SetCOnfiguration = 9,
+			SetConfiguration = 9,
 			GetInterface = 10,
 			setInterface = 11,
 			SynchFrame = 18,
