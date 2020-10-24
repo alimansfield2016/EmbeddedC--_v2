@@ -104,6 +104,9 @@ sofError:
 	lds YL, usbTransactionEnd
 	tst YL
 	breq noHandle
+	clr YL
+	sts usbTransactionEnd, YL
+	sei
 	rcall handleTransaction
 noHandle:
     POP_RETI                    ;macro call

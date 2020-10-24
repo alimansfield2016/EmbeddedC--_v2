@@ -19,6 +19,7 @@ namespace AVR
 	{
 		class Endpoint0 : public Endpoint
 		{
+			//state to hold whatever we're doing since we can't output everything at once, its all async
 			public:
 			Endpoint0();
 			
@@ -26,6 +27,8 @@ namespace AVR
 			virtual void out(uint8_t *rxBuf, uint8_t &rxLen) override;
 			virtual void in() override;
 
+			void getDeviceStatus();
+			void getDescriptor(DescriptorType type, uint8_t idx);
 			void setDeviceAddress(uint8_t addr);
 		};
 	} // namespace USB

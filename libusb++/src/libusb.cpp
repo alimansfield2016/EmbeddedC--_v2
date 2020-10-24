@@ -58,7 +58,6 @@ void AVR::USB::reset()
 void handleTransaction()
 {
 	PINB = 0x01;
-	usbTransactionEnd = 0;
 
 	// return;
 	//Interrupts have already been re-enabled

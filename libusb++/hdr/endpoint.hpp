@@ -73,6 +73,9 @@ namespace AVR
 			protected:
 			uint8_t *const txBuf;
 			uint8_t &txLen;
+
+			void genCRC16();
+			
 			public:
 
 			Endpoint();
