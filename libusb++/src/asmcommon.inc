@@ -169,11 +169,10 @@ handleIn:
 	adc		YH, x2
 
 	ld		x1, y+
-	ld		YL, y
-	mov 	YH, x1
+	ld		YH, y
+	mov 	YL, x1
 
 	ld		cnt, y
-	ldi		cnt, 0
 	tst		cnt
 	breq	sendNakAndReti
 
@@ -185,8 +184,8 @@ handleIn:
 	adc		YH, x2
 
 	ld		x1, y+
-	ld		YL, y
-	mov		YH, x1
+	ld		YH, y
+	mov		YL, x1
 
     rjmp    usbSendAndReti      ;[45] 57 + 12 = 59 until SOP
 
