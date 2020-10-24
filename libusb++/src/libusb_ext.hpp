@@ -25,8 +25,8 @@ extern "C" {
 	// extern uint8_t usbRxToken;
 	extern uint8_t usbNewDeviceAddr;
 
-	extern uint8_t* usbTxLens[16];
-	extern uint8_t* usbTxBufs[16];
+	// extern uint8_t* usbTxLens[16];
+	extern uint8_t* usbTxLenBufs[16];
 
 	void handleTransaction();
 }

@@ -19,8 +19,8 @@ namespace AVR
 	{
 		class Endpoint0 : public Endpoint
 		{
-			uint8_t txBuf[11];
-			uint8_t txLen;
+			uint8_t txLenBuf[12];
+			uint8_t &txLen;
 
 			public:
 			Endpoint0();

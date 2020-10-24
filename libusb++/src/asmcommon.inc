@@ -144,6 +144,7 @@ handleIn:
     ; ldi     x1, USBPID_NAK      ;[34] prepare value for usbTxLen
     andi    x3, 0xf             ;[35] x3 contains endpoint
 	sts		usbEndptNo, x3
+	lsl		x3
 ; #if USB_CFG_HAVE_INTRIN_ENDPOINT
 ;     andi    x3, 0xf             ;[35] x3 contains endpoint
 ; #if USB_CFG_SUPPRESS_INTR_CODE
@@ -163,8 +164,8 @@ handleIn:
 	;lds
 
 	clr 	x2
-    ldi     YL, lo8(usbTxLens)   ;[43]
-    ldi     YH, hi8(usbTxLens)   ;[44]	
+    ldi     YL, lo8(usbTxLenBufs)   ;[43]
+    ldi     YH, hi8(usbTxLenBufs)   ;[44]	
 	add 	YL, x3
 	adc		YH, x2
 
@@ -172,20 +173,12 @@ handleIn:
 	ld		YH, y
 	mov 	YL, x1
 
-	ld		cnt, y
+	ld		cnt, y+
 	tst		cnt
-	breq	sendNakAndReti
-
-	lsl		x3
-    ldi     YL, lo8(usbTxBufs)   ;[43]
-    ldi     YH, hi8(usbTxBufs)   ;[44]
-
-	add 	YL, x3
-	adc		YH, x2
-
-	ld		x1, y+
-	ld		YH, y
-	mov		YL, x1
+	brne	skipNak
+	rjmp	sendNakAndReti
+skipNak:
+	inc cnt
 
     rjmp    usbSendAndReti      ;[45] 57 + 12 = 59 until SOP
 

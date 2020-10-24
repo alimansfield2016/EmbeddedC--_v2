@@ -16,8 +16,7 @@ The source includes:
 #include <util/delay.h>
 #include "libusb_ext.hpp"
 
-uint8_t* usbTxBufs[16] = {0};
-uint8_t* usbTxLens[16] = {0};
+uint8_t* usbTxLenBufs[16] = {0};
 
 
 

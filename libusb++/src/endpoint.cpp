@@ -32,11 +32,23 @@ void Endpoint::in()
 	//prepare buffer for next transfer if required
 }
 
-Endpoint0::Endpoint0()
+Endpoint0::Endpoint0() : txLen(txLenBuf[0])
 {
-	usbTxBufs[0] = txBuf;
-	usbTxLens[0] = &txLen;
-	txLen = 0;
+	usbTxLenBufs[0] = txLenBuf;
+	txLenBuf[1+0] = USBPID_DATA1;
+	txLenBuf[1+1] = 18;
+	txLenBuf[1+2] = 1;
+	txLenBuf[1+3] = 0x10;
+	txLenBuf[1+4] = 0x01;
+	txLenBuf[1+5] = 0xFF;
+	txLenBuf[1+6] = 0x00;
+	txLenBuf[1+7] = 0x00;
+	txLenBuf[1+8] = 0x08;
+	txLenBuf[1+9] = 0x21;
+	txLenBuf[1+10] = 0x63;
+
+
+	txLen = 11;
 }
 
 void Endpoint0::setup(uint8_t *rxBuf, uint8_t &rxLen)
@@ -75,8 +87,6 @@ void Endpoint0::setup(uint8_t *rxBuf, uint8_t &rxLen)
 		break;
 	}
 
-	// txBuf[0] = 0xa5;
-	// txLen = 1;
 }
 
 void Endpoint0::in()
