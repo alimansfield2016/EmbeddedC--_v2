@@ -34,8 +34,9 @@ void Endpoint::in()
 
 Endpoint0::Endpoint0()
 {
-	// usbTxBufs[0] = txBuf;
-	// usbTxLens[0] = &txLen;
+	usbTxBufs[0] = txBuf;
+	usbTxLens[0] = &txLen;
+	txLen = 0;
 }
 
 void Endpoint0::setup(uint8_t *rxBuf, uint8_t &rxLen)
