@@ -67,7 +67,15 @@ namespace AVR
 
 		class Endpoint
 		{
+			friend class Endpoint0;
+			private:
+			uint8_t txLenBuf[12];
+			protected:
+			uint8_t *const txBuf;
+			uint8_t &txLen;
 			public:
+
+			Endpoint();
 
 			virtual void setup(uint8_t *rxBuf, uint8_t &rxLen);
 			virtual void out(uint8_t *rxBuf, uint8_t &rxLen);

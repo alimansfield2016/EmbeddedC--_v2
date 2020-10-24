@@ -60,7 +60,7 @@ void handleTransaction()
 	PINB = 0x01;
 	usbTransactionEnd = 0;
 
-	return;
+	// return;
 	//Interrupts have already been re-enabled
 	//in the assembly call to this function
 
@@ -76,4 +76,5 @@ void handleTransaction()
 	default:
 		break;
 	}
+	PINB = 0x01;
 }

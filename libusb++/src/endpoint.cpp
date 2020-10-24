@@ -19,6 +19,11 @@ using namespace AVR::USB;
 Endpoint0 _endp0{};
 Endpoint *AVR::USB::endp0{&_endp0};
 
+Endpoint::Endpoint() : txLen(txLenBuf[0]), txBuf(&txLenBuf[1])
+{
+
+}
+
 void Endpoint::setup(uint8_t *rxBuf, uint8_t &rxLen)
 {
 	rxLen = 0;
@@ -29,26 +34,15 @@ void Endpoint::out(uint8_t *rxBuf, uint8_t &rxLen)
 }
 void Endpoint::in()
 {
+	txLen = 0;
 	//prepare buffer for next transfer if required
 }
 
-Endpoint0::Endpoint0() : txLen(txLenBuf[0])
+Endpoint0::Endpoint0()
 {
 	usbTxLenBufs[0] = txLenBuf;
-	txLenBuf[1+0] = USBPID_DATA1;
-	txLenBuf[1+1] = 18;
-	txLenBuf[1+2] = 1;
-	txLenBuf[1+3] = 0x10;
-	txLenBuf[1+4] = 0x01;
-	txLenBuf[1+5] = 0xFF;
-	txLenBuf[1+6] = 0x00;
-	txLenBuf[1+7] = 0x00;
-	txLenBuf[1+8] = 0x08;
-	txLenBuf[1+9] = 0x21;
-	txLenBuf[1+10] = 0x63;
-
-
-	txLen = 11;
+	txLen = 0;
+	
 }
 
 void Endpoint0::setup(uint8_t *rxBuf, uint8_t &rxLen)
@@ -75,13 +69,13 @@ void Endpoint0::setup(uint8_t *rxBuf, uint8_t &rxLen)
 	switch (type)
 	{
 	case RequestType::Standard :
-		if(request == Request::SetAddress){
-			usbNewDeviceAddr = wValue&0x7F;
-			return;
-		}else if(request == Request::GetStatus){
-
-		}
+		if(request == Request::SetAddress)
+			setDeviceAddress(wValue&0x7F);
+		else if(request == Request::GetStatus);
+		else if(request == Request::GetDescriptor);
+		break;		
 	case RequestType::Class :
+		break;
 	case RequestType::Vendor :
 		/* code */
 		break;
@@ -91,10 +85,19 @@ void Endpoint0::setup(uint8_t *rxBuf, uint8_t &rxLen)
 
 void Endpoint0::in()
 {
-
+	txLen = 0;
 }
 
 void Endpoint0::out(uint8_t *rxBuf, uint8_t &rxLen)
 {
 
+}
+
+void Endpoint0::setDeviceAddress(uint8_t addr)
+{
+	usbNewDeviceAddr = addr;
+	txBuf[0] = USBPID_DATA1;
+	txBuf[1] = 0;
+	txBuf[2] = 0;
+	txLen = 3;
 }
