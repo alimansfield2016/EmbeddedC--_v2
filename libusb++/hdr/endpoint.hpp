@@ -71,7 +71,7 @@ namespace AVR
 
 			virtual void setup(uint8_t *rxBuf, uint8_t &rxLen);
 			virtual void out(uint8_t *rxBuf, uint8_t &rxLen);
-			virtual void in(uint8_t *txBuf);
+			virtual void in();
 		};
 
 	} // namespace USB

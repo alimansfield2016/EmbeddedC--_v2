@@ -27,9 +27,15 @@ void Endpoint::out(uint8_t *rxBuf, uint8_t &rxLen)
 {
 	rxLen = 0;
 }
-void Endpoint::in(uint8_t *txBuf)
+void Endpoint::in()
 {
 	//prepare buffer for next transfer if required
+}
+
+Endpoint0::Endpoint0()
+{
+	// usbTxBufs[0] = txBuf;
+	// usbTxLens[0] = &txLen;
 }
 
 void Endpoint0::setup(uint8_t *rxBuf, uint8_t &rxLen)
@@ -67,9 +73,12 @@ void Endpoint0::setup(uint8_t *rxBuf, uint8_t &rxLen)
 		/* code */
 		break;
 	}
+
+	// txBuf[0] = 0xa5;
+	// txLen = 1;
 }
 
-void Endpoint0::in(uint8_t *txBuf)
+void Endpoint0::in()
 {
 
 }

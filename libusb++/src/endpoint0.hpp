@@ -19,10 +19,15 @@ namespace AVR
 	{
 		class Endpoint0 : public Endpoint
 		{
+			uint8_t txBuf[11];
+			uint8_t txLen;
+
+			public:
+			Endpoint0();
 			
 			virtual void setup(uint8_t *rxBuf, uint8_t &rxLen) override;
 			virtual void out(uint8_t *rxBuf, uint8_t &rxLen) override;
-			virtual void in(uint8_t *txBuf) override;
+			virtual void in() override;
 		};
 	} // namespace USB
 	

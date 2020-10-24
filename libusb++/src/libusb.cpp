@@ -16,6 +16,10 @@ The source includes:
 #include <util/delay.h>
 #include "libusb_ext.hpp"
 
+uint8_t* usbTxBufs[16] = {0};
+uint8_t* usbTxLens[16] = {0};
+
+
 
 void AVR::USB::init()
 {
@@ -27,6 +31,7 @@ void AVR::USB::init()
 	USB_INTR_PENDING = 1<<USB_INTR_PENDING_BIT;
 
 	DDRB |= 0x01;
+	PINB = 0x01;
 
 	usbDeviceAddr = 0;
 	usbNewDeviceAddr = 0;
@@ -42,6 +47,7 @@ void AVR::USB::reset()
 	AVR::Interrupt::InterruptHolder hold;
 	DDRB |= 0x0C;
 	PORTB &= ~0x0C;
+
 	uint8_t i = 0;
 	while(--i){
 		AVR::Watchdog::reset();
@@ -52,7 +58,10 @@ void AVR::USB::reset()
 
 void handleTransaction()
 {
+	PINB = 0x01;
 	usbTransactionEnd = 0;
+
+	return;
 	//Interrupts have already been re-enabled
 	//in the assembly call to this function
 

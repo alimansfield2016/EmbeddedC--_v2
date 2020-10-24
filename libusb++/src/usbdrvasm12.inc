@@ -44,7 +44,7 @@ USB_INTR_VECTOR:
     push    YL              ;2 [35] push only what is necessary to sync with edge ASAP
     in      YL, SREG        ;1 [37]
     push    YL              ;2 [39]
-	TOGGLE
+	; TOGGLE
 ;----------------------------------------------------------------------------
 ; Synchronize with sync pattern:
 ;----------------------------------------------------------------------------
@@ -286,7 +286,7 @@ sendNakAndReti:                 ;0 [-19] 19 cycles until SOP
     ldi     x3, USBPID_NAK      ;1 [-18]
     rjmp    usbSendX3           ;2 [-16]
 sendAckAndReti:                 ;0 [-19] 19 cycles until SOP
-	ldi		x3, 1
+	ldi 	x3, 1
 	sts		usbTransactionEnd, x3
     ldi     x3, USBPID_ACK      ;1 [-18]
     rjmp    usbSendX3           ;2 [-16]

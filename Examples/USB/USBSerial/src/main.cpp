@@ -17,9 +17,21 @@
 // const char filler[] PROGMEM = "filler";
 // const char _clr[] PROGMEM = "\033[2J";
 
+extern "C" void __attribute__((signal, used)) __vector_default() {}
+// extern "C" void __attribute__((signal, used)) __vector_1() {}
+
 
 int main(){
 	AVR::Watchdog::setMode(AVR::Watchdog::Mode::Stopped);
+
+	//disable all interrupts
+
+	EIMSK = 0;
+	EIFR = 0xFF;
+	PCICR = 0;
+	PCIFR = 0xFF;
+
+	DDRB |= 0x01;
 
 	// _delay_ms(1000);
 
@@ -36,7 +48,6 @@ int main(){
 
 
 	AVR::USB::init();
-	AVR::Interrupt::enable();
 	EIMSK |= 1<<2;
 	EICRA |= 0x30;
 	EIFR = 1<<2;
