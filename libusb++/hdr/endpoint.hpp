@@ -35,10 +35,10 @@ namespace AVR
 			Other = 3,
 		};
 
-		enum class RequestDirection
+		enum class RequestDirection : bool
 		{
-			HostToDevice = 0,
-			DeviceToHost = 1,
+			HostToDevice = false,
+			DeviceToHost = true,
 		};
 
 		enum class Request
@@ -69,10 +69,10 @@ namespace AVR
 		{
 			friend class Endpoint0;
 			private:
-			uint8_t txLenBuf[12];
+			volatile uint8_t txLenBuf[12];
 			protected:
-			uint8_t *const txBuf;
-			uint8_t &txLen;
+			volatile uint8_t *const txBuf;
+			volatile uint8_t &txLen;
 
 			void genCRC16();
 			
