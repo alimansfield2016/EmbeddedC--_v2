@@ -20,7 +20,7 @@ using namespace AVR::USB;
 
 Endpoint::Endpoint() : txLen(txLenBuf[0]), txBuf(&txLenBuf[1])
 {
-
+	txLen = 0;
 }
 
 void Endpoint::setup(uint8_t *rxBuf, uint8_t &rxLen)

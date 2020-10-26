@@ -16,6 +16,12 @@ The source includes:
 #include <util/delay.h>
 #include "libusb_ext.hpp"
 
+#include <avr/interrupt.h>
+
+#include "endpoint0.hpp"
+
+extern void* operator new(size_t, void*);
+
 uint8_t* usbTxLenBufs[16] = {0};
 
 
@@ -29,14 +35,15 @@ void AVR::USB::init()
 	USB_INTR_ENABLE = 1<<USB_INTR_ENABLE_BIT;
 	USB_INTR_PENDING = 1<<USB_INTR_PENDING_BIT;
 
+	PORTB |= 0x03;
 	DDRB |= 0x01;
-	PINB = 0x01;
 
 	usbDeviceAddr = 0;
 	usbNewDeviceAddr = 0;
 	usbRxLen = 0;
 	usbTransactionEnd = 0;
 
+	endp0 = &_endp0;
 
 	AVR::Interrupt::enable();
 }
@@ -55,10 +62,11 @@ void AVR::USB::reset()
 	DDRB &= ~0x0C;
 }
 
-void handleTransaction()
+void __attribute__((interrupt)) handleTransaction()
 {
-	PINB = 0x01;
+	PORTB &= ~0x01;
 
+	// PORTB |= 0x01;
 	// return;
 	//Interrupts have already been re-enabled
 	//in the assembly call to this function
@@ -70,10 +78,11 @@ void handleTransaction()
 	case 0:
 		if(usbRxToken == USBPID_SETUP)
 			AVR::USB::endp0->setup(usbRxBuf, usbRxLen);
+			// AVR::USB::_endp0.setup(usbRxBuf, usbRxLen);
 		break;
 	
 	default:
 		break;
 	}
-	PINB = 0x01;
+	PORTB |= 0x03;
 }

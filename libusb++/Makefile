@@ -23,6 +23,7 @@ OBJ += ${ASM:${SRCDIR}/%.${ASMEXT}=${OBJDIR}/%.${OBJEXT}}
 INCLUDEPATH += ./hdr/ /home/ali/Projects/EmbeddedC++_v2/avrlibc++/headers/
 
 COMPILE = avr-gcc-5.4.0
+# COMPILE = avr-gcc-5.4.0
 ARCHIVE = avr-ar
 
 STANDARD = c++17

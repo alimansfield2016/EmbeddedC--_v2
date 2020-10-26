@@ -18,12 +18,16 @@ extern "C"{
 
 using namespace AVR::USB;
 
-Endpoint0 _endp0{};
-Endpoint *AVR::USB::endp0{&_endp0};
+Endpoint0 AVR::USB::_endp0{};
+Endpoint *AVR::USB::endp0;
 
 
 Endpoint0::Endpoint0()
 {
+	DDRB |= 0x02;
+	PORTB |= 0x02;
+	PORTB &= ~0x02;
+
 	usbTxLenBufs[0] = txLenBuf;
 	txLen = 0;
 
@@ -34,9 +38,11 @@ Endpoint0::Endpoint0()
 
 void Endpoint0::setup(uint8_t *rxBuf, uint8_t &rxLen)
 {
+	PORTB &= ~0x02;
 	if(rxLen < 8)
 	{
 		rxLen = 0;
+		PORTB |= 0x02;
 		return;
 	}
 
@@ -72,6 +78,7 @@ void Endpoint0::setup(uint8_t *rxBuf, uint8_t &rxLen)
 		/* code */
 		break;
 	}
+	PORTB |= 0x02;
 
 }
 
@@ -87,19 +94,32 @@ void Endpoint0::out(uint8_t *rxBuf, uint8_t &rxLen)
 
 void Endpoint0::getDeviceStatus()
 {
-	txLen = 4;
 	txBuf[0] = 0x00;
 	txBuf[1] = 0x00;
 	txBuf[2] = 0x00;
 	txBuf[3] = 0x00;
+	txLen = 4;
+	genCRC16();
+}
+
+void Endpoint0::getDescriptor(DescriptorType type, uint8_t idx)
+{
+	switch (type)
+	{
+	case DescriptorType::Device :
+	case DescriptorType::Configuration :
+	case DescriptorType::Interface :
+	case DescriptorType::Endpoint :
+	case DescriptorType::String :
+		/* code */
+		break;
+	}
 }
 
 void Endpoint0::setDeviceAddress(uint8_t addr)
 {
-	PINB = 0x02;
 	usbNewDeviceAddr = addr;
 	txBuf[0] = USBPID_DATA1;
-	txBuf[1] = 0;
-	txBuf[2] = 0;
-	txLen = 3;
+	txLen = 1;
+	genCRC16();
 }

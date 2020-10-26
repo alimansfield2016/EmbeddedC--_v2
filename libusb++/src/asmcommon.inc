@@ -106,8 +106,9 @@ sofError:
 	breq noHandle
 	clr YL
 	sts usbTransactionEnd, YL
+    POP_RETI                    ;macro call
 	sei
-	rcall handleTransaction
+	rjmp handleTransaction
 noHandle:
     POP_RETI                    ;macro call
     reti
