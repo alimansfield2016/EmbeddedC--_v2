@@ -177,11 +177,12 @@ handleIn:
 	ld		YH, y
 	mov 	YL, x1
 
-	ld		cnt, y+
+	ld		cnt, y
 	tst		cnt
 	brne	skipNak
 	rjmp	sendNakAndReti
 skipNak:
+	st		y+, x2
 	inc cnt
 
     rjmp    usbSendAndReti      ;[45] 57 + 12 = 59 until SOP
