@@ -22,7 +22,7 @@ The source includes:
 
 extern void* operator new(size_t, void*);
 
-uint8_t* usbTxLenBufs[16] = {0};
+volatile uint8_t* usbTxLenBufs[16] = {0};
 
 
 
