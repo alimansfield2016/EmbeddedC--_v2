@@ -31,7 +31,8 @@ int main(){
 	PCICR = 0;
 	PCIFR = 0xFF;
 
-	DDRB |= 0x01;
+	DDRB |= 0x73;
+	PORTB |= 0x73;
 
 	// _delay_ms(1000);
 
